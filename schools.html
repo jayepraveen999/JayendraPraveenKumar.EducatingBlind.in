@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Schools</title>
+       <!-- Bootstrap core CSS -->
+       <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+       <!-- material icons  -->
+       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     </head>
+</head>
+<!-- firebase -->
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+<script>
+   // Initialize Firebase
+var config = {
+  apiKey: "AIzaSyB5AkS01wbDGgvFQ5k2XxMHARL4PC8yAA8",
+  authDomain: "webdemo-542bb.firebaseapp.com",
+  databaseURL: "https://webdemo-542bb.firebaseio.com",
+  projectId: "webdemo-542bb",
+  storageBucket: "webdemo-542bb.appspot.com",
+  messagingSenderId: "346052208882"
+};
+firebase.initializeApp(config);
+var database = firebase.database().ref('schools/');
+
+database.on("child_added", function(data, prevChildKey) {
+//         var storageRef = firebase.storage().ref('schools/');
+//         storageRef.child(data.ref.key).getDownloadURL().then(function(url) {
+//         // insert into an <img> element:
+//         var imgurl = url;
+//         console.log(imgurl);
+//         }).catch(function(error) {
+//         // Handle any errors
+//      });     
+   console.log(data.val());
+   console.log(data.ref.key);     
+   var newSchool = data.val();
+   if(newSchool.sPhotoURL){
+   var card="<div class='cardi'><img class='card-img-top' src='"+newSchool.sPhotoURL+"' alt='Card image cap'><div class='card-body'><h5 class='card-title' style='margin-bottom:0px;'>";
+   card=card+newSchool.schoolName;
+   card+="</h5><small><i class='material-icons' style='font-size:15px;'>location_on </i>"+newSchool.district+", "+newSchool.state;
+   card+= '</small><p class="card-text">'+newSchool.sDesc+'</p><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#d'+newSchool.sId+'">More Details</a></div>'; 
+   card+= ' <div class="modal fade" id="d'+newSchool.sId+'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header">';
+   card+='<div class="modal-title"><h5 class="modal-title" id="exampleModalCenterTitle">'+newSchool.schoolName+'</h5><small> <i class="material-icons" style="font-size:15px;">location_on</i>'+newSchool.district+', '+newSchool.state+'</small></div>';
+   card+='<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+   card+='<div class="modal-body"><div class="card"><img class="img-fluid" src="'+newSchool.sPhotoURL+'" alt="Card image cap"><div class="card-body"><div class="container">';
+   card+='<h6>Facilities</h6><hr><div class="row"><div class="col-sm-4 p">Hostel</div><div class="col-sm-2">'+newSchool.hostel+'</div> <div class="col-sm-4 p">Food</div><div class="col-sm-2">'+newSchool.mess+'</div></div>';  
+   card+='<div class="row"><div class="col-sm-4 p">Playground</div><div class="col-sm-2">'+newSchool.ground+'</div><div class="col-sm-4 p">Primary School</div> <div class="col-sm-2">'+newSchool.pSchool+'</div></div>';   
+   card+='<div class="row"><div class="col-sm-6 p">Secondary School</div><div class="col-sm-6">'+newSchool.sskl+'</div> </div><div class="row"> <div class="col-sm-6 p">No. of Class Rooms.</div><div class="col-sm-6">'+newSchool.cno+'</div></div><div class="row"><div class="col-sm-6 p">No. of Teachers </div><div class="col-sm-6">'+newSchool.tno+'</div></div>';
+   card+='<hr><h6>About School</h6> <hr> <div><p id="sdesc">'+newSchool.sDesc+'</p></div><hr><h6>Contact Details</h6><hr> <div class="row">';
+   card+='<div class="col-sm-4 p">Email</div><div class="col-sm-8">'+newSchool.emailId+'</div></div><div class="row"><div class="col-sm-4 p">';
+   card+='Contact No.</div><div class="col-sm-8">'+newSchool.phone+'</div></div></div></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">';
+   card+='Close</button></div></div></div></div></div>';
+   document.getElementById('hold').innerHTML+=card;  }
+});
+</script>
+<style>
+ .holder{
+   width: 100%;
+   height: 450px;
+    display: flex;
+    overflow-x: auto;
+ }
+ .cardi{
+     margin: 10px;
+     min-width: 300px;
+     max-width: 300px !important;
+     height: 414px;
+     box-shadow: 1px 1px 4px 0px;
+     border-radius: 4px;
+ }
+ .holder::-webkit-scrollbar {
+  display: none;
+}
+ .p{
+    font-weight: 500;
+    color: black;
+ }
+ .card-text {
+    max-height: 72px;
+    overflow: hidden;
+ }
+ /* html,
+body {
+  width: 100%;
+  height: 100%;
+} */
+
+ /* .schoolcenter{
+  margin-top: 6%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ } */
+</style>
+<body>
+
+ 
+    <h2 style="padding:20px;padding-bottom:0px;">Blind Schools</h2><hr>
+    <div class="schoolcenter">
+        <div class="holder" id="hold">
+        
+            <!-- 1 -->
+            <div class="cardi" >
+              <img class="card-img-top" src="sample.jpg" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title" style="margin-bottom:0px;">School Name</h5>
+                <small><i class="material-icons" style="font-size:15px;">
+                        location_on
+                        </i>Location
+                </small>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">More Details</a>
+             </div>
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              
+                              <div class="modal-title">
+                                  <h5 class="modal-title" id="exampleModalCenterTitle">School Name</h5>
+                                  <small>
+                                  <i class="material-icons" style="font-size:15px;">
+                                    location_on
+                                  </i>Location
+                                  </small>
+                              </div>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div> 
+                            <div class="modal-body">
+                                    <div class="card">
+                                            <img class="img-fluid" src="sample.jpg" alt="Card image cap">
+                                            <div class="card-body">
+                                               <div class="container">
+                                                   <h6>Facilities</h6>
+                                                   <hr>
+                                                   <div class="row">
+                                                       <div class="col-sm-4 p">Hostel</div>
+                                                       <div class="col-sm-2">Yes</div>
+                                                       <div class="col-sm-4 p">Food</div>
+                                                       <div class="col-sm-2">Yes</div>
+                                                   </div>
+                                                   <div class="row">
+                                                        <div class="col-sm-4 p">Playground</div>
+                                                        <div class="col-sm-2">Yes</div>
+                                                        <div class="col-sm-4 p">Primary School</div>
+                                                        <div class="col-sm-2">Yes</div>
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-sm-6 p">Secondary School</div>
+                                                            <div class="col-sm-6">Yes</div>
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-sm-6 p">No. of Class Rooms.</div>
+                                                            <div class="col-sm-6">10</div>
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-sm-6 p">No. of Teachers </div>
+                                                            <div class="col-sm-6">15</div>
+                                                    </div>
+                                                    <hr>
+                                                    <h6>About School</h6>
+                                                    <hr>
+                                                    <div>
+                                                       <p id="sdesc">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi veritatis blanditiis, magnam eius, vero ab hic nihil eligendi fuga ratione id quos ipsum repudiandae molestiae asperiores, vel voluptatum facere ullam!
+                                                       </p>
+                                                    </div>
+                                                    <hr>
+                                                    <h6>Contact Details</h6>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-sm-4 p">Email</div>
+                                                        <div class="col-sm-8">kjdfkdsfaskj@gmail.com</div>
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-sm-4 p">Contact No.</div>
+                                                            <div class="col-sm-8">6585214697</div>
+                                                    </div>
+                                               </div>
+                                            </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="stateabbr" class="btn btn-primary" data-toggle="modal" data-target="#continue">
+                                    Apply
+                            </button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                 </div>
+            </div>
+            
+          </div>
+    </div>
+    
+
+
+
+
+
+     <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script src="Saccount.js"></script> -->
+    <script src="bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+    <script>window.jQuery || document.write('<script src="bootstrap/js/jquery-slim.min.js"><\/script>')</script>
+    <script src="bootstrap/js/popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="bootstrap/js/holder.min.js"></script>
+    
+</body>
+</html>
